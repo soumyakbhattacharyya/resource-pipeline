@@ -1,13 +1,25 @@
 package org.acme;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.shell.core.ShellRunner;
+import org.springframework.shell.core.command.annotation.Command;
+import org.springframework.shell.core.command.annotation.Option;
 
 @SpringBootApplication
 public class PocApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(PocApplication.class, args);
+	public static void main(String[] args) throws Exception {
+		ApplicationContext context = new AnnotationConfigApplicationContext(PocApplication.class);
+		ShellRunner runner = context.getBean(ShellRunner.class);
+		runner.run(args);
+	}
+
+	@Command(name = "hello", description = "Say hello to a given name", group = "Greetings", help = "A command that greets the user with 'Hello ${name}!'. Usage: hello [-n | --name]=<name>")
+	public void sayHello(
+			@Option(shortName = 'n', longName = "name", description = "the name of the person to greet", defaultValue = "World") String name) {
+		System.out.println("Hello " + name + "!");
 	}
 
 }
