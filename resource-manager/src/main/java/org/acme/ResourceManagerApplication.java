@@ -8,6 +8,7 @@ public class ResourceManagerApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ResourceManagerApplication.class, args);
+		// a simple comment
 	}
 
 }
